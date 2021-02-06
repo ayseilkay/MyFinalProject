@@ -1,6 +1,7 @@
 ﻿using Core.DataAccess.EntityFramework;
 using DataAccess.Abstract;
 using Entities.Concrete;
+using Entities.DTOs;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -15,9 +16,27 @@ namespace DataAccess.Concrete.EntityFramework
     //Link destekli çalışıyor.
     //ORM veri tabanındaki tabloyu sanki classmıs gibi bütün operasyonları link ile yaptıgımız
     //bir ortamdır. ORM veritabanı ile kodlar arasında bir bağ kurup veri tabanı işlemlerini yapma sürecidir.
-    public class EfProductDal : EfEntityRepositoryBase<Product,NorthwindContext>,IProductDal
+    public class EfProductDal : EfEntityRepositoryBase<Product, NorthwindContext>, IProductDal
     {
-        
+        public List<ProductDetailDto> GetProductDetails()
+        {
+            using (NorthwindContext context=new NorthwindContext())
+            {
+                var result = from p in context.Products
+                             join c in context.Categories
+                             on p.CategoryId equals c.CategoryId
+                             select new ProductDetailDto
+                             {
+                                 ProductId = p.ProductId,
+                                 ProductName = p.ProductName,
+                                 CategoryName = c.CategoryName,
+                                 UnitsInStock = p.UnitsInStock
+                             };
+                return result.ToList();
+            }
+        }
+
+       
     }
 }
     

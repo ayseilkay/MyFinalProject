@@ -1,5 +1,7 @@
-﻿using Entities.Concrete;
+﻿using Core.DataAccess;
 using System;
+using Entities.Concrete;
+
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;

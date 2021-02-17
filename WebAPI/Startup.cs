@@ -29,11 +29,11 @@ namespace WebAPI
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {    //Autofac bize AOP imkaný sunar. O yüzden .net in kendi ýoc containerýna autofact i enjecte edeceðiz.
-            //Autofac,Ninject,CastleWindsor,StructureMap,LightInject,DryInject:.net projelerinde kendi içinde IOC Container alt yapýsýný bize sunar.
-            //AOP:Bir metodun önünde ,sonunda ,bir metod hata verdiðinde çalýþan kod parçacýklarýný AOP mimarisiyle yazýyoruz.
+             //Autofac,Ninject,CastleWindsor,StructureMap,LightInject,DryInject:.net projelerinde kendi içinde IOC Container alt yapýsýný bize sunar.
+             //AOP:Bir metodun önünde ,sonunda ,bir metod hata verdiðinde çalýþan kod parçacýklarýný AOP mimarisiyle yazýyoruz.
             services.AddControllers();
-            services.AddSingleton<IProductService,ProductManager>();
-            services.AddSingleton<IProductDal, EfProductDal>();
+            //services.AddSingleton<IProductService,ProductManager>();
+            //services.AddSingleton<IProductDal, EfProductDal>();
             //singletoný içerisinde data tutmuyorsak kullanýrýz. çünkü örneðin   sepete uygularsak birbirinin 
             //referansýný tuttuðu için biri sepete eklediðinde diðerleride ekler. sepettekileri sildiðinde diðerlerininde
             //sepetteki ürünleri silinir(referans tipten dolayý)

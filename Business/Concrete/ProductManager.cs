@@ -1,9 +1,12 @@
 ﻿using Business.Abstract;
 using Business.Constants;
+using Business.ValidationRules.FluentValidation;
+using Core.CrossCuttingConcerns.Validation;
 using Core.Utilities.Results;
 using DataAccess.Abstract;
 using Entities.Concrete;
 using Entities.DTOs;
+using FluentValidation;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -25,12 +28,21 @@ namespace Business.Concrete
 
         public IResult Add(Product product)
         {
-            if (product.ProductName.Length < 2)
-            {
-                //magic strings : stringleri ayrı ayrı yazmak demektir.
-                return new ErrorResult(Messages.ProductNameInvalid);
-            }
+
+            //validation: nesnenin iş kurallarına dahil etmek için yapısal olarak uygun olu olmadgını kontrol etmektir.
+            //( minimum su kadar karakte olmalı gibi ..)
+
+            // business codes: iş ihtiyaclarına uygunluk demektir.(kişinin krediye uygun olup olmadıgına bakmak iş kodudur)
+
+
+            //if (product.ProductName.Length < 2)
+            //{
+            //    //magic strings : stringleri ayrı ayrı yazmak demektir.
+            //    return new ErrorResult(Messages.ProductNameInvalid);
+            //}
             //is kodları yazılır. eger burayı geçerse gider ürünü ekler.
+
+            ValidationTool.Validate(new ProductValidator(), product);
             _productDal.Add(product);
             return new SuccessResult(Messages.ProductAdded);
         }
@@ -38,7 +50,7 @@ namespace Business.Concrete
         public IDataResult<List<Product>> GetAll()
         {
             //is kodları
-            if (DateTime.Now.Hour == 22)
+            if (DateTime.Now.Hour == 23)
             {
                 return new ErrorDataResult<List<Product>>(Messages.MaintenanceTime);
             }
